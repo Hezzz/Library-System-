@@ -17,20 +17,22 @@ import javax.swing.JTextField;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.sql.Connection;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginWindow {
 
+	static Connection con = null;
 	private JFrame frame;
 	private JTextField username_field;
 	private JTextField password_field;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					con = DatabaseConnection.getInstance().getConnection();
 					LoginWindow window = new LoginWindow();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -40,16 +42,10 @@ public class LoginWindow {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public LoginWindow() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(29, 27, 27));
@@ -131,8 +127,16 @@ public class LoginWindow {
 		frame.getContentPane().add(panel_1);
 		
 		JButton patronLoginButton = new JButton("Login as Patron");
+		patronLoginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+			}
+		});
 		
 		JButton librarianLoginButton = new JButton("Login as Librarian");
+		librarianLoginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)

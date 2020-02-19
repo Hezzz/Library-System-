@@ -18,7 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 
-public class RegistrationWindow extends JFrame {
+public class UpdateUser extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField fNameTextField;
@@ -36,7 +36,7 @@ public class RegistrationWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegistrationWindow frame = new RegistrationWindow();
+					UpdateUser frame = new UpdateUser();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,7 +46,7 @@ public class RegistrationWindow extends JFrame {
 	}
 
 
-	public RegistrationWindow() {
+	public UpdateUser() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 600, 645);
 		contentPane = new JPanel();
@@ -122,9 +122,13 @@ public class RegistrationWindow extends JFrame {
 				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,
 				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
+				FormSpecs.DEFAULT_ROWSPEC,
+				FormSpecs.RELATED_GAP_ROWSPEC,
 				FormSpecs.DEFAULT_ROWSPEC,}));
 		
-		JLabel registrationLabel = new JLabel("REGISTRATION");
+		JLabel registrationLabel = new JLabel("Update Info");
 		registrationLabel.setForeground(Color.WHITE);
 		registrationLabel.setFont(new Font("Product Sans", Font.BOLD, 24));
 		registrationLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -228,11 +232,8 @@ public class RegistrationWindow extends JFrame {
 		regCofirmPassword = new JPasswordField();
 		contentPane.add(regCofirmPassword, "12, 34, 9, 1, fill, default");
 		
-		JButton patronButton = new JButton("Register as Patron");
-		contentPane.add(patronButton, "4, 38, 6, 2");
-		
-		JButton librarianButton = new JButton("Register as Librarian");
-		contentPane.add(librarianButton, "15, 38, 10, 2");
+		JButton patronButton = new JButton("Update");
+		contentPane.add(patronButton, "12, 38, 1, 2");
 	}
 
 }

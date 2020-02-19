@@ -21,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 
-public class LibraryUsersWindow extends JFrame {
+public class BooksWindow extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
@@ -30,7 +30,7 @@ public class LibraryUsersWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LibraryUsersWindow frame = new LibraryUsersWindow();
+					BooksWindow frame = new BooksWindow();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,7 +40,7 @@ public class LibraryUsersWindow extends JFrame {
 	}
 
 
-	public LibraryUsersWindow() {
+	public BooksWindow() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 989, 602);
 		contentPane = new JPanel();
@@ -50,7 +50,7 @@ public class LibraryUsersWindow extends JFrame {
 		
 		JPanel panel = new JPanel();
 		
-		JLabel lblNewLabel = new JLabel("Library Users");
+		JLabel lblNewLabel = new JLabel("Books");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Product Sans", Font.BOLD, 23));
@@ -82,71 +82,27 @@ public class LibraryUsersWindow extends JFrame {
 					.addContainerGap())
 		);
 		
-		JButton AddUser = new JButton("Add User");
-		
-		JButton EditUser = new JButton("Edit User");
-		
-		JButton DeleteUser = new JButton("Delete User");
-		
-		JButton withdrawButton = new JButton("Withdraw Book");
+		JButton withdrawButton = new JButton("Withdrwaw Book");
 		
 		JButton returnButton = new JButton("Return Book");
-		
-		JButton addBookButton = new JButton("Add New Book");
-		
-		JButton editBook = new JButton("Edit Book Details");
-		
-		JButton deleteBookButton = new JButton("Delete Book");
-		
-		JLabel libLabel = new JLabel("Librarian ID:");
-		libLabel.setForeground(Color.WHITE);
-		libLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
-		libLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		
-		JLabel libID = new JLabel("");
-		libID.setHorizontalAlignment(SwingConstants.CENTER);
-		libID.setForeground(Color.WHITE);
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_panel_1.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-						.addComponent(AddUser, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addComponent(addBookButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addComponent(EditUser, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addComponent(DeleteUser, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addComponent(editBook, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addComponent(deleteBookButton, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addComponent(libID, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addComponent(libLabel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-						.addComponent(returnButton, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addComponent(returnButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
 						.addComponent(withdrawButton, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(52)
-					.addComponent(AddUser)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(EditUser)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(DeleteUser)
-					.addGap(82)
-					.addComponent(withdrawButton)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(returnButton)
-					.addGap(77)
-					.addComponent(addBookButton)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(editBook)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(deleteBookButton)
-					.addGap(32)
-					.addComponent(libLabel)
-					.addPreferredGap(ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-					.addComponent(libID))
+					.addGap(169)
+					.addComponent(withdrawButton, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(returnButton, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(221, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(gl_panel_1);
 		
@@ -168,17 +124,16 @@ public class LibraryUsersWindow extends JFrame {
 			new Object[][] {
 			},
 			new String[] {
-				"User ID", "First Name", "Last Name", "Number of Books", "Transaction Status", "Unpaid Fines"
+				"Book ISBN Number", "Book Title", "Copy No.", "Shelf ID", "Status", "Date Borrowed", "Return Date"
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				String.class, String.class, String.class, Integer.class, String.class, Integer.class
+				String.class, String.class, Integer.class, String.class, String.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 		});
-		table.getColumnModel().getColumn(3).setPreferredWidth(127);
 		scrollPane.setViewportView(table);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
