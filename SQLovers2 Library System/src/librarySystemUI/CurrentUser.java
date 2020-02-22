@@ -1,16 +1,16 @@
 package librarySystemUI;
 
 public class CurrentUser {
-	private String username;
-	private String password;
+	private static String username;
+	private static String password;
 	
 	public CurrentUser() {}
 	
-	public void setUsername(String username, String password){
-		this.username = username;
-		this.password = password;
+	public static void setUsername(String username, String password){
+		CurrentUser.username = username;
+		CurrentUser.password = password;
 	}
-	public String getUsername(){
+	public static String getUsername(){
 		return username;
 	}
 }

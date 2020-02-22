@@ -7,6 +7,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import javax.swing.JPanel;
@@ -17,24 +18,30 @@ import javax.swing.JTextField;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JPasswordField;
 
 public class LoginWindow {
 
 	static Connection con = null;
+	static BooksWindow bookWindow;
+	static LoginWindow window;
+	static LibraryUsersWindow libUserWindow;
 	private JFrame frame;
 	private JTextField username_field;
-	private JTextField password_field;
+	private JPasswordField password_field;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					con = DatabaseConnection.getInstance().getConnection();
-					LoginWindow window = new LoginWindow();
-					window.frame.setVisible(true);
+					window = new LoginWindow();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -51,111 +58,151 @@ public class LoginWindow {
 		frame.getContentPane().setBackground(new Color(29, 27, 27));
 		frame.setBounds(100, 100, 453, 519);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		SpringLayout springLayout = new SpringLayout();
-		frame.getContentPane().setLayout(springLayout);
+		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Library System");
-		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 155, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 31, SpringLayout.WEST, frame.getContentPane());
+		lblNewLabel.setBounds(31, 155, 372, 44);
 		lblNewLabel.setFont(new Font("Checkbook", Font.BOLD, 37));
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
-		springLayout.putConstraint(SpringLayout.NORTH, panel, 205, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, -162, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, -6, SpringLayout.NORTH, panel);
-		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, 0, SpringLayout.EAST, panel);
-		springLayout.putConstraint(SpringLayout.WEST, panel, 31, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, panel, 403, SpringLayout.WEST, frame.getContentPane());
+		panel.setBounds(31, 205, 372, 105);
 		panel.setOpaque(false);
 		frame.getContentPane().add(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 87, 238, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 23, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		panel.setLayout(null);
 		
 		JLabel username_label = new JLabel("Username:");
+		username_label.setBounds(30, 30, 83, 22);
 		username_label.setFont(new Font("Product Sans", Font.BOLD, 17));
 		username_label.setForeground(Color.WHITE);
-		GridBagConstraints gbc_username_label = new GridBagConstraints();
-		gbc_username_label.anchor = GridBagConstraints.NORTH;
-		gbc_username_label.fill = GridBagConstraints.HORIZONTAL;
-		gbc_username_label.insets = new Insets(0, 0, 5, 5);
-		gbc_username_label.gridx = 1;
-		gbc_username_label.gridy = 1;
-		panel.add(username_label, gbc_username_label);
+		panel.add(username_label);
 		
 		username_field = new JTextField();
+		username_field.setBounds(118, 30, 219, 22);
 		username_field.setColumns(10);
-		GridBagConstraints gbc_username_field = new GridBagConstraints();
-		gbc_username_field.insets = new Insets(0, 0, 5, 5);
-		gbc_username_field.anchor = GridBagConstraints.SOUTH;
-		gbc_username_field.fill = GridBagConstraints.HORIZONTAL;
-		gbc_username_field.gridx = 2;
-		gbc_username_field.gridy = 1;
-		panel.add(username_field, gbc_username_field);
+		panel.add(username_field);
 		
 		JLabel pass_label = new JLabel("Password:");
+		pass_label.setBounds(32, 57, 81, 22);
 		pass_label.setForeground(Color.WHITE);
 		pass_label.setFont(new Font("Product Sans", Font.BOLD, 17));
-		GridBagConstraints gbc_pass_label = new GridBagConstraints();
-		gbc_pass_label.anchor = GridBagConstraints.EAST;
-		gbc_pass_label.insets = new Insets(0, 0, 0, 5);
-		gbc_pass_label.gridx = 1;
-		gbc_pass_label.gridy = 2;
-		panel.add(pass_label, gbc_pass_label);
-		
-		password_field = new JTextField();
-		GridBagConstraints gbc_password_field = new GridBagConstraints();
-		gbc_password_field.insets = new Insets(0, 0, 0, 5);
-		gbc_password_field.fill = GridBagConstraints.HORIZONTAL;
-		gbc_password_field.gridx = 2;
-		gbc_password_field.gridy = 2;
-		panel.add(password_field, gbc_password_field);
-		password_field.setColumns(10);
+		panel.add(pass_label);
 		
 		JPanel panel_1 = new JPanel();
-		springLayout.putConstraint(SpringLayout.NORTH, panel_1, 27, SpringLayout.SOUTH, panel);
-		springLayout.putConstraint(SpringLayout.WEST, panel_1, 31, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, panel_1, -55, SpringLayout.SOUTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, panel_1, 0, SpringLayout.EAST, lblNewLabel);
+		panel_1.setBounds(31, 337, 372, 80);
+		
+		password_field = new JPasswordField();
+		password_field.setBounds(118, 57, 219, 22);
+		panel.add(password_field);
 		panel_1.setOpaque(false);
 		frame.getContentPane().add(panel_1);
+		frame.setLocationRelativeTo(null);
 		
 		JButton patronLoginButton = new JButton("Login as Patron");
+		patronLoginButton.setFont(new Font("Object Sans", Font.BOLD, 13));
+		patronLoginButton.setBackground(Color.WHITE);
 		patronLoginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
+				String username = username_field.getText();
+				String password = String.copyValueOf(password_field.getPassword());
+				try{
+					if(username.isEmpty() || password.isEmpty()) throw new NoInputException();
+					else {
+						PreparedStatement ps = con.prepareStatement("SELECT * FROM patrons WHERE loginid = ?"
+								+ "AND patron_password = ?");
+						ps.setString(1, username);
+						ps.setString(2, password);
+						if(ps.executeUpdate() == 1){
+							CurrentUser.setUsername(username, password);
+							JOptionPane.showMessageDialog(null, "Welcome "
+									+ "to the SQLovers Library.", "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+							bookWindow = new BooksWindow(con);
+							frame.dispose();
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "Incorrect username or password.", "No user found.", JOptionPane.WARNING_MESSAGE);
+							username_field.setText("");
+							password_field.setText("");
+						}
+					}
+				}catch(NoInputException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
 		JButton librarianLoginButton = new JButton("Login as Librarian");
+		librarianLoginButton.setFont(new Font("Object Sans", Font.BOLD, 13));
+		librarianLoginButton.setBackground(Color.WHITE);
 		librarianLoginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e){
+				String username = username_field.getText();
+				String password = String.copyValueOf(password_field.getPassword());
+				try{
+					if(username.isEmpty() || password.isEmpty()) throw new NoInputException();
+					else {
+						PreparedStatement ps = con.prepareStatement("SELECT * FROM librarian WHERE loginid = ?"
+								+ "AND librarian_password = ?");
+						ps.setString(1, username);
+						ps.setString(2, password);
+						if(ps.executeUpdate() == 1){
+							CurrentUser.setUsername(username, password);
+							JOptionPane.showMessageDialog(null, "Welcome "
+									+ "to the SQLovers Library.", "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+						libUserWindow = new LibraryUsersWindow(con);
+						frame.dispose();
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "Incorrect username or password.", "No user found.", JOptionPane.WARNING_MESSAGE);
+							username_field.setText("");
+							password_field.setText("");
+						}
+					}
+				}catch(NoInputException ex){
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.OK_OPTION);
+				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
+					.addGap(12)
 					.addComponent(patronLoginButton)
-					.addPreferredGap(ComponentPlacement.RELATED, 94, Short.MAX_VALUE)
+					.addGap(68)
 					.addComponent(librarianLoginButton)
 					.addContainerGap())
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
+					.addGap(13)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
 						.addComponent(patronLoginButton, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)
-						.addComponent(librarianLoginButton, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(57, Short.MAX_VALUE))
+						.addComponent(librarianLoginButton, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE)))
 		);
 		panel_1.setLayout(gl_panel_1);
+		
+		JLabel lblNewLabel_1 = new JLabel("SQLovers");
+		lblNewLabel_1.setFont(new Font("Checkbook", Font.PLAIN, 59));
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setBounds(31, 69, 372, 73);
+		frame.getContentPane().add(lblNewLabel_1);
+		frame.setVisible(true);
+		
+		try{
+			CallableStatement cst = con.prepareCall("{CALL check_reserve}");
+			cst.execute();
+			cst.execute("COMMIT");
+		}catch (SQLException ex) {
+			JOptionPane.showMessageDialog(null, ex.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 }

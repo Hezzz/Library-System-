@@ -9,152 +9,127 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
 
 public class BookReturnWindow extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JButton btnNewButton;
+	private JTextField patron_ID;
+	private JTextField isbn_number;
+	private JTextField cpyNo;
+	private JTextField librarian_ID;
+	private JButton confirmButton;
+	Connection con;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BookReturnWindow frame = new BookReturnWindow();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public BookReturnWindow() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 470, 511);
+	public BookReturnWindow(Connection con) {
+		setBounds(100, 100, 429, 502);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(29, 27, 27));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{20, 0, 0, 0, 119, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 35, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Book Return");
+		lblNewLabel.setBounds(141, 35, 128, 29);
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Product Sans", Font.BOLD, 23));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridwidth = 5;
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 1;
-		contentPane.add(lblNewLabel, gbc_lblNewLabel);
+		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Patron ID: ");
+		lblNewLabel_1.setBounds(35, 101, 72, 19);
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Product Sans", Font.BOLD, 15));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.gridwidth = 2;
-		gbc_lblNewLabel_1.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 1;
-		gbc_lblNewLabel_1.gridy = 3;
-		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		contentPane.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.gridx = 3;
-		gbc_textField.gridy = 3;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(10);
+		patron_ID = new JTextField();
+		patron_ID.setFont(new Font("Tahoma", Font.BOLD, 14));
+		patron_ID.setBounds(146, 100, 167, 22);
+		contentPane.add(patron_ID);
+		patron_ID.setColumns(10);
+		patron_ID.setText(CurrentUser.getUsername());
 		
 		JLabel lblNewLabel_2 = new JLabel("Book ISBN No.:");
+		lblNewLabel_2.setBounds(35, 158, 102, 19);
 		lblNewLabel_2.setFont(new Font("Product Sans", Font.BOLD, 15));
 		lblNewLabel_2.setForeground(Color.WHITE);
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.gridwidth = 2;
-		gbc_lblNewLabel_2.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 1;
-		gbc_lblNewLabel_2.gridy = 5;
-		contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		contentPane.add(lblNewLabel_2);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 3;
-		gbc_textField_1.gridy = 5;
-		contentPane.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		isbn_number = new JTextField();
+		isbn_number.setFont(new Font("Tahoma", Font.BOLD, 14));
+		isbn_number.setBounds(146, 157, 167, 22);
+		contentPane.add(isbn_number);
+		isbn_number.setColumns(10);
 		
 		JLabel lblNewLabel_3 = new JLabel("Book Copy No.:");
+		lblNewLabel_3.setBounds(35, 215, 106, 19);
 		lblNewLabel_3.setForeground(Color.WHITE);
 		lblNewLabel_3.setFont(new Font("Product Sans", Font.BOLD, 15));
-		GridBagConstraints gbc_lblNewLabel_3 = new GridBagConstraints();
-		gbc_lblNewLabel_3.gridwidth = 2;
-		gbc_lblNewLabel_3.anchor = GridBagConstraints.BELOW_BASELINE_LEADING;
-		gbc_lblNewLabel_3.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_3.gridx = 1;
-		gbc_lblNewLabel_3.gridy = 7;
-		contentPane.add(lblNewLabel_3, gbc_lblNewLabel_3);
+		contentPane.add(lblNewLabel_3);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 3;
-		gbc_textField_2.gridy = 7;
-		contentPane.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		cpyNo = new JTextField();
+		cpyNo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		cpyNo.setBounds(146, 214, 167, 22);
+		contentPane.add(cpyNo);
+		cpyNo.setColumns(10);
 		
 		JLabel lblNewLabel_4 = new JLabel("Librarian ID");
+		lblNewLabel_4.setBounds(161, 293, 80, 19);
 		lblNewLabel_4.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_4.setFont(new Font("Product Sans", Font.BOLD, 15));
 		lblNewLabel_4.setForeground(Color.WHITE);
-		GridBagConstraints gbc_lblNewLabel_4 = new GridBagConstraints();
-		gbc_lblNewLabel_4.anchor = GridBagConstraints.WEST;
-		gbc_lblNewLabel_4.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_4.gridx = 3;
-		gbc_lblNewLabel_4.gridy = 10;
-		contentPane.add(lblNewLabel_4, gbc_lblNewLabel_4);
+		contentPane.add(lblNewLabel_4);
 		
-		textField_3 = new JTextField();
-		GridBagConstraints gbc_textField_3 = new GridBagConstraints();
-		gbc_textField_3.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_3.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_3.gridx = 3;
-		gbc_textField_3.gridy = 11;
-		contentPane.add(textField_3, gbc_textField_3);
-		textField_3.setColumns(10);
+		librarian_ID = new JTextField();
+		librarian_ID.setFont(new Font("Tahoma", Font.BOLD, 14));
+		librarian_ID.setBounds(115, 325, 179, 22);
+		contentPane.add(librarian_ID);
+		librarian_ID.setColumns(10);
 		
-		btnNewButton = new JButton("Confirm");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridwidth = 5;
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton.gridx = 0;
-		gbc_btnNewButton.gridy = 13;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
+		confirmButton = new JButton("Confirm");
+		confirmButton.setFont(new Font("Object Sans", Font.BOLD, 13));
+		confirmButton.setBackground(Color.WHITE);
+		confirmButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				String patronID = patron_ID.getText().toString();
+				String isbnNumber = isbn_number.getText().toString();
+				String copyNo = cpyNo.getText().toString();
+				String libID = librarian_ID.getText().toString();
+				try{
+					if(patronID.isEmpty() || isbnNumber.isEmpty() || copyNo.isEmpty() || libID.isEmpty()) throw new NoInputException();
+					else{
+						CallableStatement cst = con.prepareCall("{CALL return_book(?,?,?,?)}");
+						cst.setString(1, patronID);
+						cst.setString(2, isbnNumber);
+						cst.setString(3, copyNo);
+						cst.setString(4, libID);
+						cst.execute();
+						JOptionPane.showMessageDialog(null, "Book Returned.", "Book Returned", JOptionPane.INFORMATION_MESSAGE);
+						LoginWindow.bookWindow.updateTable();
+						cst.execute("COMMIT");
+					}
+				}catch(NoInputException ex){
+					JOptionPane.showMessageDialog(null, "Please input all required fields.", "No Input", JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, "Invalid Librarian ID or No book to be returned", "SQL Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		confirmButton.setBounds(146, 382, 123, 25);
+		contentPane.add(confirmButton);
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
-
 }

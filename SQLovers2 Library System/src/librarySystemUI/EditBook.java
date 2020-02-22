@@ -9,133 +9,173 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import javax.swing.JTextField;
 import java.awt.Insets;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class EditBook extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField isbnNumber;
+	private JTextField newTitle;
 	private JLabel lblNewLabel_1;
 	private JLabel lblNewTitle;
 	private JLabel lblNewLabel_2;
 	private JButton btnChangeTitle;
-	private JTextField textField_2;
+	private JTextField newShelfID;
 	private JButton btnNewButton;
+	Connection con;
+	private JTextField copyNoField;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditBook frame = new EditBook();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	public EditBook() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 448, 503);
+	public EditBook(Connection con) {
+		setBounds(100, 100, 448, 528);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(29, 27, 27));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 241, 0, 0, 0, 0};
-		gbl_contentPane.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		contentPane.setLayout(gbl_contentPane);
+		contentPane.setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Edit Books");
+		lblNewLabel.setBounds(162, 23, 99, 26);
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Product Sans", Font.BOLD, 20));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel.gridx = 3;
-		gbc_lblNewLabel.gridy = 1;
-		contentPane.add(lblNewLabel, gbc_lblNewLabel);
+		contentPane.add(lblNewLabel);
 		
 		lblNewLabel_1 = new JLabel("Book ISBN Number");
+		lblNewLabel_1.setBounds(148, 72, 130, 19);
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Product Sans", Font.BOLD, 15));
-		GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-		gbc_lblNewLabel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_1.gridx = 3;
-		gbc_lblNewLabel_1.gridy = 3;
-		contentPane.add(lblNewLabel_1, gbc_lblNewLabel_1);
+		contentPane.add(lblNewLabel_1);
 		
-		textField = new JTextField();
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 3;
-		gbc_textField.gridy = 4;
-		contentPane.add(textField, gbc_textField);
-		textField.setColumns(10);
+		isbnNumber = new JTextField();
+		isbnNumber.setBounds(95, 96, 236, 22);
+		contentPane.add(isbnNumber);
+		isbnNumber.setColumns(10);
 		
 		lblNewTitle = new JLabel("New Title");
+		lblNewTitle.setBounds(180, 149, 65, 19);
 		lblNewTitle.setForeground(Color.WHITE);
 		lblNewTitle.setFont(new Font("Product Sans", Font.BOLD, 15));
-		GridBagConstraints gbc_lblNewTitle = new GridBagConstraints();
-		gbc_lblNewTitle.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewTitle.gridx = 3;
-		gbc_lblNewTitle.gridy = 6;
-		contentPane.add(lblNewTitle, gbc_lblNewTitle);
+		contentPane.add(lblNewTitle);
 		
-		textField_1 = new JTextField();
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_1.gridx = 3;
-		gbc_textField_1.gridy = 7;
-		contentPane.add(textField_1, gbc_textField_1);
-		textField_1.setColumns(10);
+		newTitle = new JTextField();
+		newTitle.setBounds(95, 173, 236, 22);
+		contentPane.add(newTitle);
+		newTitle.setColumns(10);
 		
 		btnChangeTitle = new JButton("Change Title");
-		GridBagConstraints gbc_btnChangeTitle = new GridBagConstraints();
-		gbc_btnChangeTitle.insets = new Insets(0, 0, 5, 5);
-		gbc_btnChangeTitle.gridx = 3;
-		gbc_btnChangeTitle.gridy = 8;
-		contentPane.add(btnChangeTitle, gbc_btnChangeTitle);
+		btnChangeTitle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				String isbn_number = isbnNumber.getText().toString();
+				String new_Title = newTitle.getText().toString();
+				try{
+					if(isbn_number.isEmpty() || new_Title.isEmpty()) throw new NoInputException();
+					int really = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to change this book's Title?", "Change Title", 
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+	    			if(really == 0){
+	    				CallableStatement cst = con.prepareCall("{CALL change_title(?, ?)}");
+	    				cst.setString(1, isbn_number);
+	    				cst.setString(2, new_Title);
+	    				cst.execute();
+	    				cst.execute("COMMIT");
+	    				JOptionPane.showMessageDialog(null, "Book Title Changed", "Change Title", JOptionPane.INFORMATION_MESSAGE);
+	    				dispose();
+	    			}
+				}catch (NoInputException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
+				}catch(NumberFormatException ex){
+					JOptionPane.showMessageDialog(null, "Please input fields correctly.", "Invalid House No", JOptionPane.ERROR_MESSAGE);
+				} catch (SQLException ex) {
+					JOptionPane.showMessageDialog(null, "No such book exists.", "Book Not Found", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		btnChangeTitle.setBounds(160, 200, 105, 25);
+		contentPane.add(btnChangeTitle);
 		
 		lblNewLabel_2 = new JLabel("New Shelf ID");
+		lblNewLabel_2.setBounds(169, 347, 88, 19);
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setFont(new Font("Product Sans", Font.BOLD, 15));
-		GridBagConstraints gbc_lblNewLabel_2 = new GridBagConstraints();
-		gbc_lblNewLabel_2.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_2.gridx = 3;
-		gbc_lblNewLabel_2.gridy = 10;
-		contentPane.add(lblNewLabel_2, gbc_lblNewLabel_2);
+		contentPane.add(lblNewLabel_2);
 		
-		textField_2 = new JTextField();
-		GridBagConstraints gbc_textField_2 = new GridBagConstraints();
-		gbc_textField_2.insets = new Insets(0, 0, 5, 5);
-		gbc_textField_2.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_2.gridx = 3;
-		gbc_textField_2.gridy = 11;
-		contentPane.add(textField_2, gbc_textField_2);
-		textField_2.setColumns(10);
+		newShelfID = new JTextField();
+		newShelfID.setBounds(95, 371, 236, 22);
+		contentPane.add(newShelfID);
+		newShelfID.setColumns(10);
 		
 		btnNewButton = new JButton("Change Shelf");
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton.gridx = 3;
-		gbc_btnNewButton.gridy = 12;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
+		btnNewButton.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				String isbn_number = isbnNumber.getText().toString();
+				String shelfID = newShelfID.getText().toString();
+				try{
+					if(isbn_number.isEmpty() || shelfID.isEmpty()) throw new NoInputException();
+					int really = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to change this book's Shelf Location?", "Change Shelf", 
+							JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+	    			if(really == 0){
+	    				PreparedStatement ps = con.prepareStatement("SELECT * FROM book WHERE book_isbn_number = ?");
+						ps.setString(1, isbn_number);
+						if(ps.executeUpdate() == 0) throw new NoBookExistsException();
+						
+						int copyNo = Integer.parseInt(copyNoField.getText().toString());
+						ps = con.prepareStatement("SELECT * FROM shelf WHERE shelf_id = ?");
+						ps.setString(1, shelfID);
+						if(ps.executeUpdate() == 0) throw new NoShelfExistsException();
+	    			
+	    				CallableStatement cst = con.prepareCall("{CALL change_title(?, ?, ?)}");
+	    				cst.setString(1, isbn_number);
+	    				cst.setInt(2, copyNo);
+	    				cst.setString(3, shelfID);
+	    				cst.execute();
+	    				cst.execute("COMMIT");
+	    				JOptionPane.showMessageDialog(null, "Book Shelf Changed.", "Change Shelf Location", JOptionPane.INFORMATION_MESSAGE);
+	    				dispose();
+	    			}
+				}catch (NoInputException ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
+				}catch(NumberFormatException ex){
+					copyNoField.setText("");
+					JOptionPane.showMessageDialog(null, "Please input a valid copy no..", "Invalid Copy No", JOptionPane.ERROR_MESSAGE);
+				}catch(NoBookExistsException ex){
+					isbnNumber.setText("");
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "No Book Exists", JOptionPane.ERROR_MESSAGE);
+				}
+				catch(NoShelfExistsException ex){
+					newShelfID.setText("");
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "No Shelf Exists", JOptionPane.ERROR_MESSAGE);
+				}
+				catch (SQLException ex) {
+					JOptionPane.showMessageDialog(null, "No such book exists.", "Book Not Found", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
+		btnNewButton.setBounds(158, 398, 109, 25);
+		contentPane.add(btnNewButton);
+		
+		copyNoField = new JTextField();
+		copyNoField.setBounds(95, 288, 236, 22);
+		contentPane.add(copyNoField);
+		copyNoField.setColumns(10);
+		
+		JLabel lblNewLabel_3 = new JLabel("Copy No.");
+		lblNewLabel_3.setForeground(Color.WHITE);
+		lblNewLabel_3.setFont(new Font("Product Sans", Font.BOLD, 15));
+		lblNewLabel_3.setBounds(180, 263, 89, 16);
+		contentPane.add(lblNewLabel_3);
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
-
 }
