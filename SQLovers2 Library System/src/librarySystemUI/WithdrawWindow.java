@@ -169,6 +169,7 @@ public class WithdrawWindow extends JFrame {
 	    				cst.setString(6, bkStatus);
 	    				cst.execute();
 	    				cst.execute("COMMIT");
+	    				LoginWindow.libUserWindow.userUpdate();
 	    			}
 				}catch (NoInputException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
