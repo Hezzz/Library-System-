@@ -219,7 +219,7 @@ public class RegistrationWindow extends JFrame {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
 				}catch(NumberFormatException ex){
 					JOptionPane.showMessageDialog(null, "Please input fields correctly.", "Invalid House No", JOptionPane.ERROR_MESSAGE);
-				} catch (SQLException e1) {
+				} catch (SQLException ex) {
 					JOptionPane.showMessageDialog(null, "Username taken already.", "Invalid Username", JOptionPane.WARNING_MESSAGE);
 				}
 			}

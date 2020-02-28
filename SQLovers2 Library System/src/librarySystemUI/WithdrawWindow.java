@@ -31,6 +31,7 @@ public class WithdrawWindow extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField patIDTextField;
+	private String patronid;
 	DefaultComboBoxModel bkTitle = new DefaultComboBoxModel();
 	DefaultComboBoxModel shlfID = new DefaultComboBoxModel();
 	DefaultComboBoxModel cpyNo = new DefaultComboBoxModel();
@@ -52,60 +53,67 @@ public class WithdrawWindow extends JFrame {
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Patron ID");
-		lblNewLabel_1.setBounds(174, 96, 65, 19);
+		lblNewLabel_1.setBounds(174, 74, 65, 19);
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Product Sans", Font.BOLD, 15));
 		contentPane.add(lblNewLabel_1);
 		
 		patIDTextField = new JTextField();
-		patIDTextField.setBounds(125, 120, 158, 22);
+		patIDTextField.setBounds(125, 98, 158, 22);
 		contentPane.add(patIDTextField);
 		patIDTextField.setColumns(10);
 		
 		JLabel lblNewLabel_2 = new JLabel("Book Title");
-		lblNewLabel_2.setBounds(172, 177, 69, 19);
+		lblNewLabel_2.setBounds(172, 221, 69, 19);
 		lblNewLabel_2.setForeground(Color.WHITE);
 		lblNewLabel_2.setFont(new Font("Product Sans", Font.BOLD, 15));
 		contentPane.add(lblNewLabel_2);
 		
 		bookTitle = new JComboBox();
-		bookTitle.setBounds(95, 201, 223, 22);
+		bookTitle.setBounds(95, 245, 223, 22);
 		bookTitle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				try{
 					shlfID.removeAllElements();
-					PreparedStatement ps = con.prepareStatement("SELECT DISTINCT shelf_id FROM book WHERE book_title = ? AND current_status <> 'on-loan'");
+					PreparedStatement ps = con.prepareStatement("SELECT shelf_id FROM library_transaction "
+							+ "WHERE book_return_status = 'on-hold' "
+							+ " AND BOOK_TITLE = ?"
+							+ "AND patron_id = ?");
 					ps.setString(1, bookTitle.getSelectedItem().toString());
+					ps.setString(2, patronid);
 					ResultSet rs = ps.executeQuery();
 					while(rs.next()){
 						shlfID.addElement(rs.getString("shelf_id"));
 					}
 					shelfID.setModel(shlfID);
 					cpyNo.removeAllElements();
-					ps = con.prepareStatement("SELECT DISTINCT copy_number FROM book WHERE shelf_id = ? AND book_title = ? AND current_status <> 'on-loan'");
-					ps.setString(1, shelfID.getSelectedItem().toString());
-					ps.setString(2, bookTitle.getSelectedItem().toString());
+					ps = con.prepareStatement("SELECT book_copy_number FROM library_transaction "
+							+ "WHERE book_return_status = 'on-hold' "
+							+ " AND BOOK_TITLE = ?"
+							+ " AND shelf_id = ?"
+							+ "AND patron_id = ?");
+					ps.setString(1, bookTitle.getSelectedItem().toString());
+					ps.setString(2, shelfID.getSelectedItem().toString());
+					ps.setString(3, patronid);
 					rs = ps.executeQuery();
 					while(rs.next()){
-						cpyNo.addElement(rs.getString("copy_number"));
+						cpyNo.addElement(rs.getString("book_copy_number"));
 					}
 					copyNumber.setModel(cpyNo);
-				}catch(SQLException ex){
-					
-				}
+				}catch(SQLException ex){}
 			}
 		});
 		contentPane.add(bookTitle);
 		
 		JLabel lblNewLabel_3 = new JLabel("Shelf ID");
-		lblNewLabel_3.setBounds(177, 258, 54, 19);
+		lblNewLabel_3.setBounds(177, 278, 54, 19);
 		lblNewLabel_3.setForeground(Color.WHITE);
 		lblNewLabel_3.setFont(new Font("Product Sans", Font.BOLD, 15));
 		contentPane.add(lblNewLabel_3);
 		
 		shelfID = new JComboBox();
-		shelfID.setBounds(125, 282, 158, 22);
+		shelfID.setBounds(125, 302, 158, 22);
 		shelfID.setFont(new Font("Tahoma", Font.BOLD, 13));
 		contentPane.add(shelfID);
 		
@@ -121,33 +129,10 @@ public class WithdrawWindow extends JFrame {
 		copyNumber.setMaximumRowCount(4);
 		contentPane.add(copyNumber);
 		
-		try{
-			PreparedStatement ps = con.prepareStatement("SELECT DISTINCT book_title FROM book WHERE current_status <> 'on-loan'");
-			ResultSet rs = ps.executeQuery();
-			while(rs.next()){
-				bkTitle.addElement(rs.getString("book_title"));
-			}
-			bookTitle.setModel(bkTitle);
-			ps = con.prepareStatement("SELECT DISTINCT shelf_id FROM book WHERE book_title = ? AND current_status <> 'on-loan'");
-			ps.setString(1, bookTitle.getSelectedItem().toString());
-			rs = ps.executeQuery();
-			while(rs.next()){
-				shlfID.addElement(rs.getString("shelf_id"));
-			}
-			shelfID.setModel(shlfID);
-			ps = con.prepareStatement("SELECT DISTINCT copy_number FROM book WHERE shelf_id = ? AND book_title = ? AND current_status <> 'on-loan'");
-			ps.setString(1, shelfID.getSelectedItem().toString());
-			ps.setString(2, bookTitle.getSelectedItem().toString());
-			rs = ps.executeQuery();
-			while(rs.next()){
-				cpyNo.addElement(rs.getString("copy_number"));
-			}
-			copyNumber.setModel(cpyNo);
-		}catch(SQLException ex){
-		}
 		
 		JButton withdrawButton = new JButton("Withdraw");
 		withdrawButton.setBounds(139, 420, 122, 25);
+		withdrawButton.setEnabled(false);
 		withdrawButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e){
 				String patId = patIDTextField.getText().toString();
@@ -169,23 +154,77 @@ public class WithdrawWindow extends JFrame {
 	    				cst.setString(6, bkStatus);
 	    				cst.execute();
 	    				cst.execute("COMMIT");
+	    				JOptionPane.showMessageDialog(null, "Book withdrawn.", "Withdraw", JOptionPane.INFORMATION_MESSAGE);
 	    				LoginWindow.libUserWindow.userUpdate();
+	    				dispose();
 	    			}
 				}catch (NoInputException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				}catch (SQLException ex) {}
 				
 			}
 		});
 		withdrawButton.setBackground(Color.WHITE);
 		withdrawButton.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		contentPane.add(withdrawButton);
+		
+		JButton searchPatron = new JButton("Search");
+		searchPatron.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e){
+				patronid = patIDTextField.getText();
+				withdrawButton.setEnabled(true);
+					try{
+						if(patronid.isEmpty()) throw new NoInputException();
+						bkTitle.removeAllElements();
+						PreparedStatement ps = con.prepareStatement("SELECT book_title FROM library_transaction "
+								+ "WHERE book_return_status = 'on-hold' "
+								+ "AND patron_id = ?");
+						ps.setString(1, patronid);
+						ResultSet rs = ps.executeQuery();
+						while(rs.next()){
+							bkTitle.addElement(rs.getString("book_title"));
+						}
+						bookTitle.setModel(bkTitle);
+						shlfID.removeAllElements();
+						ps = con.prepareStatement("SELECT shelf_id FROM library_transaction "
+								+ "WHERE book_return_status = 'on-hold' "
+								+ " AND BOOK_TITLE = ?"
+								+ "AND patron_id = ?");
+						ps.setString(1, bookTitle.getSelectedItem().toString());
+						ps.setString(2, patronid);
+						rs = ps.executeQuery();
+						while(rs.next()){
+							shlfID.addElement(rs.getString("shelf_id"));
+						}
+						shelfID.setModel(shlfID);
+						cpyNo.removeAllElements();
+						ps = con.prepareStatement("SELECT book_copy_number FROM library_transaction "
+								+ "WHERE book_return_status = 'on-hold' "
+								+ " AND BOOK_TITLE = ?"
+								+ " AND shelf_id = ?"
+								+ "AND patron_id = ?");
+						ps.setString(1, bookTitle.getSelectedItem().toString());
+						ps.setString(2, shelfID.getSelectedItem().toString());
+						ps.setString(3, patronid);
+						rs = ps.executeQuery();
+						while(rs.next()){
+							cpyNo.addElement(rs.getString("book_copy_number"));
+						}
+						copyNumber.setModel(cpyNo);
+					}catch(SQLException ex){} 
+					catch (NoInputException ex) {
+						JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
+					}
+					catch(NullPointerException ex){
+						JOptionPane.showMessageDialog(null, "User has no book withdrawn.", "No Transaction", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+					}
+			}
+		});
+		searchPatron.setBounds(155, 133, 97, 25);
+		contentPane.add(searchPatron);
 		setVisible(true);
 		setLocationRelativeTo(null);
 		this.con = con;
 	}
-
 }

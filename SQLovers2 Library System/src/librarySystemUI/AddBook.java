@@ -162,9 +162,8 @@ public class AddBook extends JFrame {
 			while(rs.next()){
 				shelfID.addElement(rs.getString("shelf_id"));
 			}
-		}catch(SQLException ex){
-			
-		}
+		}catch(SQLException ex){}
+		
 		authorID.setModel(authID);
 		shlfID.setModel(shelfID);
 		
@@ -193,8 +192,7 @@ public class AddBook extends JFrame {
 				}catch (NoInputException ex) {
 					JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Book already exists.", "Duplicate Entry", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -236,8 +234,7 @@ public class AddBook extends JFrame {
 					copyNumber.setText("");
 					JOptionPane.showMessageDialog(null, "Please input a valid copy no..", "Invalid Copy No", JOptionPane.ERROR_MESSAGE);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "Book and associated author already exists.", "Duplicate Entry", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

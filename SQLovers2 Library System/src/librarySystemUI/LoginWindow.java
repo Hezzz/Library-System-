@@ -201,8 +201,9 @@ public class LoginWindow {
 			CallableStatement cst = con.prepareCall("{CALL check_reserve}");
 			cst.execute();
 			cst.execute("COMMIT");
-		}catch (SQLException ex) {
-			JOptionPane.showMessageDialog(null, ex.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+		}catch (SQLException ex) {}
+		finally {
+			JOptionPane.showMessageDialog(null, "Reservations checked.", "System Refreshed", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }

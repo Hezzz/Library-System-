@@ -120,7 +120,7 @@ public class BooksWindow extends JFrame {
 	    				updateTable();
 	    			}
 				}catch (SQLException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "User has maximum transactions", "Reservation Limit", JOptionPane.ERROR_MESSAGE);
 				}catch(IndexOutOfBoundsException ex){
 					JOptionPane.showMessageDialog(null, "No book selected. Please select one.", "No Selection", JOptionPane.ERROR_MESSAGE);
 				}

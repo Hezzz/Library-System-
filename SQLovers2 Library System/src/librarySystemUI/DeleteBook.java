@@ -90,7 +90,7 @@ public class DeleteBook extends JFrame {
 						bookTitle.setText(rs.getString("title"));
 					}
 				}catch(SQLException ex){
-					ex.printStackTrace();
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
 				} catch (NoBookExistsException ex) {
 					bookTitle.setText("");
 					isbnTextField.setText("");

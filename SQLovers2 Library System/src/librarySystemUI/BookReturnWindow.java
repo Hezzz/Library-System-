@@ -123,7 +123,7 @@ public class BookReturnWindow extends JFrame {
 				}catch(NoInputException ex){
 					JOptionPane.showMessageDialog(null, "Please input all required fields.", "No Input", JOptionPane.ERROR_MESSAGE);
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, "Invalid Librarian ID or No book to be returned", "SQL Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Invalid Librarian ID or no book to be returned", "SQL Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
