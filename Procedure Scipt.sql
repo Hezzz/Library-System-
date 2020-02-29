@@ -318,6 +318,8 @@ BEGIN
             UPDATE patrons
                 SET borrowed_books_count = borrowed_books_count + 1
                 WHERE loginid = patID;
+                
+            SELECT borrowed_books_count INTO pat_books FROM patrons WHERE patrons.loginid = patID;
         
             IF pat_books = 2 THEN
                 UPDATE patrons
