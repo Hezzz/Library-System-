@@ -119,6 +119,7 @@ public class BookReturnWindow extends JFrame {
 						JOptionPane.showMessageDialog(null, "Book Returned.", "Book Returned", JOptionPane.INFORMATION_MESSAGE);
 						LoginWindow.bookWindow.updateTable();
 						cst.execute("COMMIT");
+						LoginWindow.libUserWindow.userUpdate();
 					}
 				}catch(NoInputException ex){
 					JOptionPane.showMessageDialog(null, "Please input all required fields.", "No Input", JOptionPane.ERROR_MESSAGE);

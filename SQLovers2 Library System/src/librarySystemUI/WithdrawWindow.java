@@ -216,7 +216,7 @@ public class WithdrawWindow extends JFrame {
 						JOptionPane.showMessageDialog(null, ex.getMessage(), "INVALID/NO Input", JOptionPane.ERROR_MESSAGE);
 					}
 					catch(NullPointerException ex){
-						JOptionPane.showMessageDialog(null, "User has no book withdrawn.", "No Transaction", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, "User has no book reserved.", "No Transaction", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
 					}
 			}
