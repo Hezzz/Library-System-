@@ -117,7 +117,7 @@ public class BookReturnWindow extends JFrame {
 						cst.setString(4, libID);
 						cst.execute();
 						JOptionPane.showMessageDialog(null, "Book Returned.", "Book Returned", JOptionPane.INFORMATION_MESSAGE);
-						LoginWindow.bookWindow.updateTable();
+						if(LoginWindow.bookWindow != null) LoginWindow.bookWindow.updateTable();
 						cst.execute("COMMIT");
 						LoginWindow.libUserWindow.userUpdate();
 					}

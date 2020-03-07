@@ -54,7 +54,7 @@ public class RegistrationWindow extends JFrame {
 		registrationLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(registrationLabel);
 		
-		JLabel fNamelbl = new JLabel("First Name:");
+		JLabel fNamelbl = new JLabel("First Name:*");
 		fNamelbl.setBounds(43, 94, 104, 18);
 		fNamelbl.setForeground(Color.WHITE);
 		fNamelbl.setFont(new Font("Product Sans", Font.BOLD, 14));
@@ -65,7 +65,7 @@ public class RegistrationWindow extends JFrame {
 		contentPane.add(fNameTextField);
 		fNameTextField.setColumns(10);
 		
-		JLabel lblMiddeName = new JLabel("Midde Name: *");
+		JLabel lblMiddeName = new JLabel("Midde Name: ");
 		lblMiddeName.setBounds(43, 123, 104, 18);
 		lblMiddeName.setForeground(Color.WHITE);
 		lblMiddeName.setFont(new Font("Product Sans", Font.BOLD, 14));
@@ -76,7 +76,7 @@ public class RegistrationWindow extends JFrame {
 		contentPane.add(mNameTextField);
 		mNameTextField.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("Last Name:");
+		JLabel lblNewLabel = new JLabel("Last Name:*");
 		lblNewLabel.setBounds(43, 152, 104, 18);
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setFont(new Font("Product Sans", Font.BOLD, 14));
@@ -93,7 +93,7 @@ public class RegistrationWindow extends JFrame {
 		lblAddressField.setFont(new Font("Product Sans", Font.BOLD, 14));
 		contentPane.add(lblAddressField);
 		
-		JLabel lblHouseNo = new JLabel("House No.:");
+		JLabel lblHouseNo = new JLabel("House No.:*");
 		lblHouseNo.setBounds(43, 237, 104, 18);
 		lblHouseNo.setForeground(Color.WHITE);
 		lblHouseNo.setFont(new Font("Product Sans", Font.BOLD, 14));
@@ -104,7 +104,7 @@ public class RegistrationWindow extends JFrame {
 		contentPane.add(hNoTexField);
 		hNoTexField.setColumns(10);
 		
-		JLabel lblStreet = new JLabel("Street:");
+		JLabel lblStreet = new JLabel("Street:*");
 		lblStreet.setBounds(43, 266, 104, 18);
 		lblStreet.setFont(new Font("Product Sans", Font.BOLD, 14));
 		lblStreet.setForeground(Color.WHITE);
@@ -115,7 +115,7 @@ public class RegistrationWindow extends JFrame {
 		contentPane.add(streetTextField);
 		streetTextField.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("City:");
+		JLabel lblNewLabel_1 = new JLabel("City:*");
 		lblNewLabel_1.setBounds(43, 295, 104, 18);
 		lblNewLabel_1.setForeground(Color.WHITE);
 		lblNewLabel_1.setFont(new Font("Product Sans", Font.BOLD, 14));
@@ -126,7 +126,7 @@ public class RegistrationWindow extends JFrame {
 		contentPane.add(cityTextField);
 		cityTextField.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Country:");
+		JLabel lblNewLabel_2 = new JLabel("Country:*");
 		lblNewLabel_2.setBounds(43, 324, 104, 18);
 		lblNewLabel_2.setFont(new Font("Product Sans", Font.BOLD, 14));
 		lblNewLabel_2.setForeground(Color.WHITE);
@@ -143,7 +143,7 @@ public class RegistrationWindow extends JFrame {
 		logindetails.setFont(new Font("Product Sans", Font.BOLD, 14));
 		contentPane.add(logindetails);
 		
-		JLabel username = new JLabel("Username:");
+		JLabel username = new JLabel("Username:*");
 		username.setBounds(43, 409, 135, 18);
 		username.setFont(new Font("Product Sans", Font.BOLD, 14));
 		username.setForeground(Color.WHITE);
@@ -154,7 +154,7 @@ public class RegistrationWindow extends JFrame {
 		contentPane.add(regUserName);
 		regUserName.setColumns(10);
 		
-		JLabel password = new JLabel("Password:");
+		JLabel password = new JLabel("Password:*");
 		password.setBounds(43, 438, 104, 18);
 		password.setFont(new Font("Product Sans", Font.BOLD, 14));
 		password.setForeground(Color.WHITE);
@@ -164,7 +164,7 @@ public class RegistrationWindow extends JFrame {
 		regPassword.setBounds(216, 436, 267, 22);
 		contentPane.add(regPassword);
 		
-		JLabel lblConfirmPassword = new JLabel("Confirm Password:");
+		JLabel lblConfirmPassword = new JLabel("Confirm Password:*");
 		lblConfirmPassword.setBounds(43, 467, 135, 18);
 		lblConfirmPassword.setForeground(Color.WHITE);
 		lblConfirmPassword.setFont(new Font("Product Sans", Font.BOLD, 14));
